@@ -196,10 +196,22 @@ module Databasedotcom
       end
 
       # Returns the possible picklist options for the attribute +attr_name+. If +attr_name+ is not of type picklist or multipicklist, [] is returned. Raises ArgumentError if attribute does not exist.
-      def self.picklist_values(attr_name)
-        self.type_map_attr(attr_name, :picklist_values)
+      # If _:valid_for_ is given in the +options+ hash, will return a filtered list of picklist values for the controlling field
+      #
+      #     client.picklist_values('color', :valid_for => 'ferrari')
+      def self.picklist_values(attr_name, options={})
+        values = []
+        if valid_for = options.delete(:valid_for)
+          controller = self.type_map_attr(attr_name, :controller_name)
+          self.type_map_attr(controller, :picklist_values).each_with_index do |value, index|
+            values = self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == valid_for
+          end
+        else
+          values = self.type_map_attr(attr_name, :picklist_values)
+        end
+        values
       end
-
+      
       # Returns true if the attribute +attr_name+ can be updated. Raises ArgumentError if attribute does not exist.
       def self.updateable?(attr_name)
         self.type_map_attr(attr_name, :updateable?)
@@ -332,6 +344,12 @@ module Databasedotcom
 
       private
 
+      # Returns true if the picklist value is valid for the dependent picklist at index
+      def self.test_bitset(valid_for, index)
+        valid_for = valid_for.ljust(16, 'A').unpack('m').first.unpack('q*')
+        return (valid_for[index >> 3] & (0x80 >> index % 8)) != 0
+      end
+
       def self.register_field( name, field )
         public
         attr_accessor name.to_sym
@@ -340,6 +358,7 @@ module Databasedotcom
           :type => field["type"],
           :label => field["label"],
           :picklist_values => field["picklistValues"],
+          :controller_name => field["controllerName"],
           :updateable? => field["updateable"],
           :createable? => field["createable"]
         }

@@ -656,6 +656,22 @@ describe Databasedotcom::Sobject::Sobject do
           TestClass.picklist_values("Foobar")
         }.should raise_error(ArgumentError)
       end
+      
+      it "returns a filtered set of picklist values that are valid for the controlling field" do
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "one").length.should == 2
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "two").length.should == 1
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "three").length.should == 0
+      end
+      
+      it "returns an empty array if controlling value does not exist" do
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "foobar").length.should == 0
+      end
+      
+      it "raises ArugmentError for unknown attributes with dependent fields" do
+        lambda {
+          TestClass.picklist_values("Foobar", :valid_for => "one")
+        }.should raise_error(ArgumentError)
+      end
     end
 
     describe ".field_type" do
