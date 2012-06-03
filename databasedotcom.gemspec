@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A ruby wrapper for the Force.com REST API}
   s.description = %q{A ruby wrapper for the Force.com REST API}
 
-  s.rubyforge_project = "databasedotcom"
+  s.rubyforge_project = "databasedotcom-ejholmes"
 
   s.files         = Dir['README.rdoc', 'MIT-LICENSE', 'lib/**/*']
   s.require_paths = ["lib"]
