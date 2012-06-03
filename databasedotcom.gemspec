@@ -3,12 +3,12 @@ $:.push File.expand_path("../lib", __FILE__)
 require "databasedotcom/version"
 
 Gem::Specification.new do |s|
-  s.name        = "databasedotcom"
+  s.name        = "databasedotcom-ejholmes"
   s.version     = Databasedotcom::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Glenn Gillen, Danny Burkes & Richard Zhao"]
-  s.email       = ["me@glenngillen.com"]
-  s.homepage    = ""
+  s.authors     = ["Glenn Gillen, Danny Burkes, Richard Zhao & Eric Holmes"]
+  s.email       = ["eric@ejholmes.net"]
+  s.homepage    = "https://github.com/databasedotcom"
   s.summary     = %q{A ruby wrapper for the Force.com REST API}
   s.description = %q{A ruby wrapper for the Force.com REST API}
 
