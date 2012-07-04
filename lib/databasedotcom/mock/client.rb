@@ -15,5 +15,10 @@ module Databasedotcom
       JSON.parse(body)["sobjects"]
     end
 
+    #def describe_sobject(class_name)
+      #body = File.read(File.join(Databasedotcom.fixtures, 'describe', "#{class_name}.json"))
+      #JSON.parse(body)
+    #end
+
   end
 end
