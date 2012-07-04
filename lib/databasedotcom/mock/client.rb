@@ -7,9 +7,13 @@ module Databasedotcom
     end
 
     def list_sobjects
-      body = File.read(File.join(Databasedotcom.fixtures, 'sobjects.json'))
-      JSON.parse(body)["sobjects"].collect { |sobject| sobject["name"] }
+      describe_sobjects.collect { |sobject| sobject["name"] }
     end
-      
+
+    def describe_sobjects
+      body = File.read(File.join(Databasedotcom.fixtures, 'sobjects.json'))
+      JSON.parse(body)["sobjects"]
+    end
+
   end
 end

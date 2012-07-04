@@ -29,7 +29,6 @@ describe Databasedotcom do
       subject { client.list_sobjects }
 
       it { should be_an Array }
-      it { puts subject }
     end
   end
 end
