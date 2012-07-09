@@ -167,9 +167,14 @@ and calls to methods like `.authenticate`, `.create`, `.update`, `.upsert` and `
 will be persisted in memory. This is useful if you're using the gem in a Rails project and you want to test the application with
 something like Capybara.
 
+In order for mocking to work, the gem needs a few json fixtures to be setup for the describe calls. There should be a file called 
+`sobjects.json` within the configured fixtures directory. Then you should have an `#{sobject name}.json` file under the `describe`
+folder for each object that needs to be materialized. Take a look at the `spec/fixtures/mocks` directory for examples.
+
     # spec/spec_helper.rb
 
     Databasedotcom.mock!
+    Databasedotcom.fixtures = File.expand_path('../fixtures/databasedotcom', __FILE__)
 
     RSpec.configure do |config|
       config.before(:each) { Databasedotcom.reset_db! }
