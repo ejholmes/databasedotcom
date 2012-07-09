@@ -161,6 +161,22 @@ You can easily access Chatter feeds, group, conversations, etc.:
 
 See the documentation[http://rubydoc.info/github/heroku/databasedotcom/master/frames] for full details.
 
+= Testing
+You can mock database transactions by using `Databasedotcom.mock!`. After calling this method, the gem will not make any HTTP requests
+and calls to methods like `.authenticate`, `.create`, `.update`, `.upsert` and `.delete` will always succeed. The resulting record
+will be persisted in memory. This is useful if you're using the gem in a Rails project and you want to test the application with
+something like Capybara.
+
+```ruby
+# spec/spec_helper.rb
+
+Databasedotcom.mock!
+
+RSpec.configure do |config|
+  config.before(:each) { Databasedotcom.reset_db! }
+end
+```
+
 = License
 
 This gem is licensed under the MIT License.
