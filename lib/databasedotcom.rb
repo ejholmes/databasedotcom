@@ -28,5 +28,38 @@ module Databasedotcom
     def fixtures
       @fixtures
     end
+
+    def mock_db
+      @db ||= begin
+        hash = Hash.new
+
+        def hash.<<(obj)
+          self[obj.class.sobject_name] ||= []
+          self[obj.class.sobject_name] << obj
+        end
+
+        def hash.get(id)
+          self.each do |key, val|
+            val.each do |record|
+              return record if record.Id == id
+            end
+          end
+        end
+
+        def hash.delete(id)
+          self.each do |key, val|
+            val.each do |record|
+              val.delete(record) if record.Id == id
+            end
+          end
+        end
+        
+        hash
+      end
+    end
+
+    def reset_db!
+      @db = nil
+    end
   end
 end
