@@ -5,7 +5,7 @@ require 'databasedotcom'
 describe Databasedotcom do
   before :all do
     Databasedotcom.mock!
-    Databasedotcom.fixtures = File.expand_path('../../fixtures/mocks', __FILE__)
+    Databasedotcom.fixtures = File.expand_path("../../fixtures/mocks", __FILE__)
   end
 
   describe ".mocking?" do
@@ -22,7 +22,7 @@ describe Databasedotcom do
         subject.authenticate
       end
 
-      specify { subject.oauth_token.should eq 'foobar' }
+      specify { subject.oauth_token.should eq "foobar" }
     end
 
     describe ".list_sobjects" do
@@ -30,6 +30,12 @@ describe Databasedotcom do
 
       it { should have(2).items }
       it { should be_all { |n| n.should be_a String } }
+    end
+
+    describe ".describe_sobject" do
+      subject { client.describe_sobject("Account") }
+
+      its(["name"]) { should eq "Account" }
     end
   end
 end
