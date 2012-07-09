@@ -28,7 +28,6 @@ describe Databasedotcom do
     describe ".list_sobjects" do
       subject { client.list_sobjects }
 
-      it { should be_an Array }
       it { should have(2).items }
       it { should be_all { |n| n.should be_a String } }
     end
