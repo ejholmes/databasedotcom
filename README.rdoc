@@ -162,14 +162,14 @@ You can easily access Chatter feeds, group, conversations, etc.:
 See the documentation[http://rubydoc.info/github/heroku/databasedotcom/master/frames] for full details.
 
 = Testing
-You can mock database transactions by using `Databasedotcom.mock!`. After calling this method, the gem will not make any HTTP requests
-and calls to methods like `.authenticate`, `.create`, `.update`, `.upsert` and `.delete` will always succeed. The resulting record
+You can mock database transactions by using <tt>Databasedotcom.mock!</tt>. After calling this method, the gem will not make any HTTP requests
+and calls to methods like <tt>.authenticate</tt>, <tt>.create</tt>, <tt>.update</tt>, <tt>.upsert</tt> and <tt>.delete</tt> will always succeed. The resulting record
 will be persisted in memory. This is useful if you're using the gem in a Rails project and you want to test the application with
 something like Capybara.
 
 In order for mocking to work, the gem needs a few json fixtures to be setup for the describe calls. There should be a file called 
-`sobjects.json` within the configured fixtures directory. Then you should have an `#{sobject name}.json` file under the `describe`
-folder for each object that needs to be materialized. Take a look at the `spec/fixtures/mocks` directory for examples.
+<tt>sobjects.json</tt> within the configured fixtures directory. Then you should have an <tt>#{sobject name}.json</tt> file under the <tt>describe</tt>
+folder for each object that needs to be materialized. Take a look at the <tt>spec/fixtures/mocks</tt> directory for examples.
 
     # spec/spec_helper.rb
 
