@@ -29,6 +29,7 @@ describe Databasedotcom do
       subject { client.list_sobjects }
 
       it { should be_an Array }
+      it { should have(2).items }
     end
   end
 end
