@@ -87,7 +87,7 @@ describe Databasedotcom do
         @record = client.create("Account", "Name" => "foobar")
       end
 
-      subject { client.query("SELECT Id FROM Account") }
+      subject { client.query("SELECT Id FROM Account Where Foo = 'Bar'") }
 
       it { should have(1).items }
     end
