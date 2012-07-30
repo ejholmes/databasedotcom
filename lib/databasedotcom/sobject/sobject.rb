@@ -220,6 +220,14 @@ module Databasedotcom
         Databasedotcom::Sobject::QueryService.new(self)
       end
 
+      Databasedotcom::Sobject::Query::COMPONENTS.each do |param|
+        self.class_eval <<-RUBY
+        def self.#{param}(*args)
+          Databasedotcom::Sobject::QueryService.new(self).#{param}(*args)
+        end
+        RUBY
+      end
+
       # Returns all records of type self as instances.
       #
       #    client.materialize("Car")
@@ -233,7 +241,7 @@ module Databasedotcom
       #    client.materialize("Car")
       #    Car.query("Color = 'Blue'")    #=>   [#<Car @Id="1", @Color="Blue", ...>, #<Car @Id="5", @Color="Blue", ...>, ...]
       def self.query(where_expr)
-        soql_query.where(where_expr).all
+        where(where_expr).all
       end
       
       # Delegates to Client.search
@@ -243,12 +251,12 @@ module Databasedotcom
 
       # Find the first record. If the +where_expr+ argument is present, it must be the WHERE part of a SOQL query
       def self.first(where_expr=nil)
-        soql_query.where(where_expr).order_by('Id ASC').limit(1).first
+        where(where_expr).order_by('Id ASC').limit(1).first
       end
 
       # Find the last record. If the +where_expr+ argument is present, it must be the WHERE part of a SOQL query
       def self.last(where_expr=nil)
-        soql_query.where(where_expr).order_by('Id DESC').limit(1).last
+        where(where_expr).order_by('Id DESC').limit(1).last
       end
 
       #Delegates to Client.upsert with arguments self, +field+, +values+, and +attrs+
@@ -263,7 +271,7 @@ module Databasedotcom
 
       # Get the total number of records
       def self.count
-        soql_query.selects('COUNT()').all.total_size
+        selects('COUNT()').all.total_size
       end
 
       # Sobject objects support dynamic finders similar to ActiveRecord.
