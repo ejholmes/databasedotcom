@@ -108,6 +108,11 @@ You can authenticate your Client directly with Salesforce with a valid username 
 
     client.authenticate :username => "foo@bar.com", :password => "ThePasswordTheSecurityToken"  #=> "the-oauth-token"
 
+=== Authentication via Warden
+If you decided to use the {Warden middleware}[https://github.com/ejholmes/warden-salesforce] provided, a client will be automatically instantiated for you at:
+
+    env['warden'].user.client
+
 == Accessing the Sobject API
 You can retrieve a list of Sobject defined in your Salesforce instance like so:
 
