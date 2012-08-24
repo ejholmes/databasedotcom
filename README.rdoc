@@ -113,6 +113,20 @@ If you decided to use the {Warden middleware}[https://github.com/ejholmes/warden
 
     env['warden'].user.client
 
+You can use the Warden middlware by including it with:
+
+    use Warden::Manager do |manager|
+      manager.default_strategies :salesforce
+      manager.failure_app = BadAuthentication
+
+      manager[:salesforce_client_id]    = ENV['SALESFORCE_CLIENT_ID']
+      manager[:salesforce_secret]       = ENV['SALESFORCE_CLIENT_SECRET']
+
+      manager[:salesforce_scopes]       = 'api'
+      manager[:salesforce_oauth_domain] = ENV['SALESFORCE_OAUTH_DOMAIN']
+      manager[:salesforce_callback_url] = '/auth/salesforce/callback'
+    end
+
 == Accessing the Sobject API
 You can retrieve a list of Sobject defined in your Salesforce instance like so:
 
